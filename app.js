@@ -1,5 +1,10 @@
+import { key } from './config.js';
+
 new Vue({
   el: '#app',
+  components: {
+    key
+  },
 
   data: {
     currencies: {},
@@ -40,7 +45,7 @@ new Vue({
 
       axios
         .get(
-          'https://free.currencyconverterapi.com/api/v6/currencies?apiKey=7ecd763eb8fafcfcecc4'
+          `https://free.currencyconverterapi.com/api/v6/currencies?apiKey=${key}`
         )
         .then(response => {
           this.currencies = response.data.results;
@@ -52,18 +57,18 @@ new Vue({
     },
 
     convertCurrency() {
-      const key = `${this.from}_${this.to}`;
+      const keys = `${this.from}_${this.to}`;
 
       this.loading = true;
 
       axios
         .get(
-          `https://free.currconv.com/api/v7/convert?q=${key}&compact=ultra&apiKey=7ecd763eb8fafcfcecc4`
+          `https://free.currconv.com/api/v7/convert?q=${keys}&compact=ultra&apiKey=${key}`
         )
         .then(response => {
           this.loading = false;
           console.log(response);
-          this.result = response.data[key];
+          this.result = response.data[keys];
         });
     }
   },
